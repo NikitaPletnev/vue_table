@@ -70,8 +70,7 @@ const clearFilters = () => {
   localFilterCountries.value = "";
   localFilterCompanies.value = "";
   localFilterPolicy.value = "";
-  emit('handleClearFilter'); // Inform the parent component that all filters have been cleared.
-  // Optionally, if you want to update the parent state as well, you could emit specific events for each filter being cleared.
+  emit('handleClearFilter');
   emit('updateFilter', { filterName: 'countries', value: '' });
   emit('updateFilter', { filterName: 'companies', value: '' });
   emit('updateFilter', { filterName: 'policy', value: '' });
