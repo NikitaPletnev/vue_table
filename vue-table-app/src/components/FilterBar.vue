@@ -70,7 +70,6 @@ const clearFilters = () => {
   localFilterCountries.value = "";
   localFilterCompanies.value = "";
   localFilterPolicy.value = "";
-  emit('handleClearFilter');
   emit('updateFilter', { filterName: 'countries', value: '' });
   emit('updateFilter', { filterName: 'companies', value: '' });
   emit('updateFilter', { filterName: 'policy', value: '' });

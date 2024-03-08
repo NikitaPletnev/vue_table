@@ -4,7 +4,6 @@
         :filterCountries="filterCountries"
         :filterCompanies="filterCompanies"
         :filterPolicy="filterPolicy"
-        @handleClearFilter="handleClearFilter"
         @handleFilter="handleFilter"/>
     <DynamicTable :rowData="filteredData"/>
   </div>
@@ -31,12 +30,6 @@ export default defineComponent({
     const filterCompanies = ref("");
     const filterPolicy = ref("");
 
-    const handleClearFilter = () => {
-      filterCountries.value = "";
-      filterCompanies.value = "";
-      filterPolicy.value = "";
-    };
-
     const handleFilter = (filters: { filterName: string, value: string }) => {
       if (filters.filterName === 'countries') filterCountries.value = filters.value;
       else if (filters.filterName === 'companies') filterCompanies.value = filters.value;
@@ -55,7 +48,6 @@ export default defineComponent({
       filterCountries,
       filterCompanies,
       filterPolicy,
-      handleClearFilter,
       handleFilter,
       filteredData,
     };
