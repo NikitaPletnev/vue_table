@@ -27,8 +27,25 @@
   </div>
 </template>
 
+
 <script setup lang="ts">
 import { ref, watch, defineEmits, defineProps } from 'vue';
+
+const emit = defineEmits(['handleFilter', 'handleClearFilter', 'updateFilter']);
+
+const props = defineProps({
+  filterCountries: String,
+  filterCompanies: String,
+  filterPolicy: String,
+});
+
+const localFilterCountries = ref(props.filterCountries);
+const localFilterCompanies = ref(props.filterCompanies);
+const localFilterPolicy = ref(props.filterPolicy);
+
+watch(() => props.filterCountries, (newVal) => { localFilterCountries.value = newVal; });
+watch(() => props.filterCompanies, (newVal) => { localFilterCompanies.value = newVal; });
+watch(() => props.filterPolicy, (newVal) => { localFilterPolicy.value = newVal; });
 
 const onCompanyChange = (event: Event) => {
   const selectedValue = (event.target as HTMLSelectElement).value;
@@ -45,32 +62,19 @@ const onCountryChange = (event: Event) => {
   emit('handleFilter', 'countries', selectedValue);
 };
 
-const props = defineProps({
-  filterCountries: String,
-  filterCompanies: String,
-  filterPolicy: String,
-});
-
-const localFilterCountries = ref(props.filterCountries);
-const localFilterCompanies = ref(props.filterCompanies);
-const localFilterPolicy = ref(props.filterPolicy);
-
-watch(() => props.filterCountries, (newVal) => { localFilterCountries.value = newVal; });
-watch(() => props.filterCompanies, (newVal) => { localFilterCompanies.value = newVal; });
-watch(() => props.filterPolicy, (newVal) => { localFilterPolicy.value = newVal; });
-
-const emitChange = (filterName, value) => {
-  emit('updateFilter', { filterName, value });
-};
-
 const countries = ref(['Country A', 'Country B']);
 const companies = ref(['Company X', 'Company Y']);
 const policies = ref(['Policy 1', 'Policy 2']);
 
-const emit = defineEmits(['handleFilter', 'handleClearFilter']);
-
 const clearFilters = () => {
-  emit('handleClearFilter');
+  localFilterCountries.value = "";
+  localFilterCompanies.value = "";
+  localFilterPolicy.value = "";
+  emit('handleClearFilter'); // Inform the parent component that all filters have been cleared.
+  // Optionally, if you want to update the parent state as well, you could emit specific events for each filter being cleared.
+  emit('updateFilter', { filterName: 'countries', value: '' });
+  emit('updateFilter', { filterName: 'companies', value: '' });
+  emit('updateFilter', { filterName: 'policy', value: '' });
 };
 </script>
 
